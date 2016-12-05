@@ -105,6 +105,41 @@ cd $BPATH/$VERSION_NGINX
 make
 make install
 
+# Create config files for nginx
+ mkdir -p \
+   /etc/nginx/sites-available \
+   /etc/nginx/sites-enabled \
+   /etc/nginx/snippets
+
+# Copy nginx configuration files from Github repository
+wget -O /etc/nginx/sites-available/default https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/default
+
+# Set user and group to nginx, and set permissions (change the permission to your needs)
+chown -R nginx:nginx /etc/nginx/sites-available/default
+chmod -R 760 /etc/nginx/sites-available/default
+
+# Symlink default config file to sites-enabled
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Create default root folder and get default index.html file
+mkdir -p /var/www/html/
+wget -O /var/www/html/index.html https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/index.html
+
+# Set user and group to nginx, and set permissions (change the permission to your needs)
+chown -R nginx:nginx /var/www/html/
+chmod -R 660 /var/www/html/
+
+# Add proxy-control.conf and fastcgi-php.conf to snippets
+wget -O /etc/nginx/snippets/proxy-control.conf https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/proxy-control.conf
+wget -O /etc/nginx/snippets/fastcgi-php.con https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/fastcgi-php.conf
+
+# Set user and group to nginx, and set permissions (change the permission to your needs)
+chown -R nginx:nginx /etc/nginx/snippets/
+chmod -R 660 /etc/nginx/snippets/
+
+# Set user nginx in nginx.conf
+sed -i '1s/^/user nginx;\n/' /etc/nginx/nginx.conf
+
 # Create NGINX systemd service file if it does not already exist
 if [ ! -e "/lib/systemd/system/nginx.service" ]; then
   # Control will enter here if $DIRECTORY doesn't exist.
@@ -127,38 +162,10 @@ WantedBy=multi-user.target
 EOF
 fi
 
-# Create config files for nginx
- mkdir -p \
-   /etc/nginx/sites-available \
-   /etc/nginx/sites-enabled \
-   /etc/nginx/snippets
+# Enable nginx.service
+systemctl enable nginx.service
 
-# Copy nginx configuration files from Github repository
-cd /etc/nginx/sites-available/
-wget https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/default
-
-# Set user and group to nginx, and set permissions (change the permission to your needs)
-chown -R nginx:nginx /etc/nginx/sites-available/default
-chmod -R 760 /etc/nginx/sites-available/default
-
-# Symlink default config file to sites-enabled
-ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-
-# Create default root folder and get default index.html file
-mkdir -p /var/www/html/
-cd /var/www/html/
-wget https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/index.html
-
-# Set user and group to nginx, and set permissions (change the permission to your needs)
-chown -R nginx:nginx /var/www/html/
-chmod -R 660 /var/www/html/
-
-# Set user nginx in nginx.conf
-sed -i '1s/^/user nginx;\n/' /etc/nginx/nginx.conf
-
-# Add proxy-control.conf and fastcgi-php.conf to snippets
-
-
-cd $BPATH/$VERSION_NGINX
+#Start nginx.service
+systemctl start nginx.service
 
 echo "All done.";
