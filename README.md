@@ -14,11 +14,6 @@ This script is useful if you would like to create a very secure nginx setup with
 
 Important: you should build nginx if you are using Debian 8 (Minibian, OSMC, Raspbian), especially on ARM device like Raspberry Pi. On Ubuntu you don't need to build from source, just add the official nginx PPA, and install nginx-extras (you need extras if you need full WebDAV support).
 
-You need to add the Debian contrib and non-free components to your sources:
-
-echo "deb http://httpredir.debian.org/debian jessie main contrib non-free" | tee -a "/etc/apt/sources.list.d/deb-contribnonfree.list"
-echo "deb-src http://httpredir.debian.org/debian jessie main contrib non-free" | tee -a "/etc/apt/sources.list.d/deb-contribnonfree.list"
-echo "deb http://httpredir.debian.org/debian jessie-updates main contrib non-free" | tee -a "/etc/apt/sources.list.d/deb-contribnonfree.list"
-echo "deb-src http://httpredir.debian.org/debian jessie-updates main contrib non-free" | tee -a "/etc/apt/sources.list.d/deb-contribnonfree.list"
+You need to add the Debian contrib and non-free components to your sources! More details at: 
 
 This script is partly based on work by Matt Wilcox https://gist.github.com/MattWilcox/402e2e8aa2e1c132ee24 and a fork by Matthew Vance https://gist.github.com/MatthewVance/dcc377523ca1b1159ded
