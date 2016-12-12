@@ -115,8 +115,8 @@ make install
 wget -O /etc/nginx/sites-available/default https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/default
 
 # Set user and group to nginx, and set permissions (change the permission to your needs)
-chown -R nginx:nginx /etc/nginx/sites-available/default
-chmod -R 760 /etc/nginx/sites-available/default
+# chown -R nginx:nginx /etc/nginx/sites-available/default
+# chmod -R 760 /etc/nginx/sites-available/default
 
 # Symlink default config file to sites-enabled
 ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
@@ -134,11 +134,19 @@ wget -O /etc/nginx/snippets/proxy-control.conf https://raw.githubusercontent.com
 wget -O /etc/nginx/snippets/fastcgi-php.con https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/fastcgi-php.conf
 
 # Set user and group to nginx, and set permissions (change the permission to your needs)
-chown -R nginx:nginx /etc/nginx/snippets/
-chmod -R 660 /etc/nginx/snippets/
+# chown -R nginx:nginx /etc/nginx/snippets/
+# chmod -R 660 /etc/nginx/snippets/
 
 # Set user nginx in nginx.conf
-sed -i '1s/^/user nginx;\n/' /etc/nginx/nginx.conf
+# sed -i '1s/^/user nginx;\n/' /etc/nginx/nginx.conf
+
+# Backup nginx.conf created with make install to nginx.conf.backup, and create fresh nginx.conf
+mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.backup
+wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/nginx.conf
+
+# Set user and group to nginx, and set permissions (change the permission to your needs)
+chown -R nginx:nginx /etc/nginx/
+chmod -R 660 /etc/nginx/
 
 # Create NGINX systemd service file if it does not already exist
 if [ ! -e "/lib/systemd/system/nginx.service" ]; then
