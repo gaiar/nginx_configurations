@@ -42,8 +42,8 @@ if [ ! -d "/var/cache/nginx/" ]; then
 fi
 
 # Add nginx group and user if they do not already exist
-id -g nginx &>/dev/null || addgroup --system nginx
-id -u nginx &>/dev/null || adduser --disabled-password --system --home /var/cache/nginx --shell /sbin/nologin --group nginx
+# id -g nginx &>/dev/null || addgroup --system nginx
+# id -u nginx &>/dev/null || adduser --disabled-password --system --home /var/cache/nginx --shell /sbin/nologin --group nginx
 
 # expand the source files
 cd build
@@ -77,8 +77,8 @@ cd $BPATH/$VERSION_NGINX
 --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
 --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
 --http-scgi-temp-path=/var/cache/nginx/scgi_temp \
---user=nginx \
---group=nginx \
+--user=www-data \
+--group=www-data \
 --sbin-path=/usr/sbin/nginx \
 --pid-path=/var/run/nginx.pid \
 --with-pcre=$BPATH/$VERSION_PCRE \
@@ -97,6 +97,7 @@ cd $BPATH/$VERSION_NGINX
 --with-http_gzip_static_module \
 --with-http_stub_status_module \
 --with-http_geoip_module \
+--with-http_dav_module \
 --with-threads \
 --without-mail_pop3_module \
 --without-mail_smtp_module \
@@ -126,7 +127,7 @@ mkdir -p /var/www/html/
 wget -O /var/www/html/index.html https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/index.html
 
 # Set user and group to nginx, and set permissions (change the permission to your needs)
-chown -R nginx:nginx /var/www/html/
+chown -R www-data:www-data /var/www/html/
 chmod -R 660 /var/www/html/
 
 # Add proxy-control.conf and fastcgi-php.conf to snippets
@@ -145,8 +146,8 @@ mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.backup
 wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/nginx.conf
 
 # Set user and group to nginx, and set permissions (change the permission to your needs)
-chown -R nginx:nginx /etc/nginx/
-chmod -R 660 /etc/nginx/
+# chown -R www-data:www-data /etc/nginx/
+chmod -R 665 /etc/nginx/
 
 # Remove /etc/nginx/html directory created by make install, as we use /var/www/html
 rm -r /etc/nginx/html/
