@@ -18,8 +18,11 @@ Important: you should build nginx if you are using Debian 8 (Minibian, OSMC, Ras
 You need to add the Debian contrib and non-free components to your apt sources:
 
 echo "deb http://httpredir.debian.org/debian jessie main contrib non-free" >> /etc/apt/sources.list.d/deb-contribnonfree.list
+
 echo "deb-src http://httpredir.debian.org/debian jessie main contrib non-free" >> /etc/apt/sources.list.d/deb-contribnonfree.list
+
 echo "deb http://httpredir.debian.org/debian jessie-updates main contrib non-free" >> /etc/apt/sources.list.d/deb-contribnonfree.list
+
 echo "deb-src http://httpredir.debian.org/debian jessie-updates main contrib non-free" >> /etc/apt/sources.list.d/deb-contribnonfree.list
 
 If you run apt-get update and you recevive a GPG error that a publick key is not availble, then first install
