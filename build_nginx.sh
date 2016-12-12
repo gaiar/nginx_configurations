@@ -147,7 +147,7 @@ wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/drakehtpc/nginx_
 
 # Set user and group to nginx, and set permissions (change the permission to your needs)
 # chown -R www-data:www-data /etc/nginx/
-chmod -R 665 /etc/nginx/
+chmod -R 664 /etc/nginx/
 
 # Remove /etc/nginx/html directory created by make install, as we use /var/www/html
 rm -r /etc/nginx/html/
