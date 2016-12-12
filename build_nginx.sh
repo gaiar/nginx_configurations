@@ -148,6 +148,9 @@ wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/drakehtpc/nginx_
 chown -R nginx:nginx /etc/nginx/
 chmod -R 660 /etc/nginx/
 
+# Remove /etc/nginx/html directory created by make install, as we use /var/www/html
+rm -r /etc/nginx/html/
+
 # Create NGINX systemd service file if it does not already exist
 if [ ! -e "/lib/systemd/system/nginx.service" ]; then
   # Control will enter here if $DIRECTORY doesn't exist.
