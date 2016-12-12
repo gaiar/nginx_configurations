@@ -128,7 +128,7 @@ wget -O /var/www/html/index.html https://raw.githubusercontent.com/drakehtpc/ngi
 
 # Set user and group to nginx, and set permissions (change the permission to your needs)
 chown -R www-data:www-data /var/www/html/
-chmod -R 660 /var/www/html/
+chmod -R 775 /var/www/html/
 
 # Add proxy-control.conf and fastcgi-php.conf to snippets
 wget -O /etc/nginx/snippets/proxy-control.conf https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/proxy-control.conf
