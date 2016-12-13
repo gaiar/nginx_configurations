@@ -150,6 +150,9 @@ wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/drakehtpc/nginx_
 # chown -R www-data:www-data /etc/nginx/
 chmod -R 664 /etc/nginx/
 
+# Set /etc/nginx/ directory permission to 645, required for auth basic
+chmod 645 /etc/nginx/
+
 # Remove /etc/nginx/html directory created by make install, as we use /var/www/html
 rm -r /etc/nginx/html/
 
