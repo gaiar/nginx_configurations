@@ -86,6 +86,7 @@ cd $BPATH/$VERSION_NGINX
 --with-openssl=$BPATH/$VERSION_OPENSSL \
 --with-zlib=$BPATH/$VERSION_ZLIB \
 --with-http_auth_request_module \
+--with-http_auth_basic_module \
 --with-http_gunzip_module \
 --with-http_gzip_static_module \
 --with-http_mp4_module \
