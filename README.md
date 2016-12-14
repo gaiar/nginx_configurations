@@ -4,7 +4,7 @@ The nginx version included in default Debian repository is very outdated (even l
 
 -- install the required dependencies
 
--- download binaries for nginx, OpenSSL, PCRE, ZLIB, extra ngixn modules
+-- download binaries for nginx, OpenSSL, PCRE, ZLIB, extra nginx modules
 
 -- add nginx modules to have GeoIP, full WebDAV supports (included third party module dav-ext) required for example for ownCloud
 
