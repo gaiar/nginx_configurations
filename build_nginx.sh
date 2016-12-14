@@ -172,5 +172,4 @@ systemctl start nginx.service
 
 # Display detailed nginx version with enabled modules
 nginx -V
-
-echo "All done. You can now proceed to configure nginx with Let's Encrypt certifiactes and hardened security. http://www.htpcguides.com";
+echo "Congratulations, nginx built successfully. You can now proceed to configure nginx with Let's Encrypt certifiactes and hardened security. http://www.htpcguides.com";
