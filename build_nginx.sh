@@ -20,7 +20,7 @@ export SOURCE_NGINX=http://nginx.org/download/
 rm -rf build
 mkdir build
 
-# ensure that we have the dependencies to compile our own nginx
+# ensure that we have the dependencies to compile nginx & modules
 # make sure you have contrib non-free repository added to your sources!
 apt-get update
 apt-get install curl wget build-essential libexpat-dev unzip apt-utils libgeoip-dev -y
@@ -40,10 +40,6 @@ if [ ! -d "/var/cache/nginx/" ]; then
     /var/cache/nginx/uwsgi_temp \
     /var/cache/nginx/scgi_temp
 fi
-
-# Add nginx group and user if they do not already exist
-# id -g nginx &>/dev/null || addgroup --system nginx
-# id -u nginx &>/dev/null || adduser --disabled-password --system --home /var/cache/nginx --shell /sbin/nologin --group nginx
 
 # expand the source files
 cd build
@@ -115,10 +111,6 @@ make install
 # Copy nginx configuration files from Github repository
 wget -O /etc/nginx/sites-available/default https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/default
 
-# Set user and group to nginx, and set permissions (change the permission to your needs)
-# chown -R nginx:nginx /etc/nginx/sites-available/default
-# chmod -R 760 /etc/nginx/sites-available/default
-
 # Symlink default config file to sites-enabled
 ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
@@ -126,7 +118,7 @@ ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 mkdir -p /var/www/html/
 wget -O /var/www/html/index.html https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/index.html
 
-# Set user and group to nginx, and set permissions (change the permission to your needs)
+# Set user and group to nginx, and set permissions
 chown -R www-data:www-data /var/www/html/
 chmod -R 775 /var/www/html/
 
@@ -134,22 +126,15 @@ chmod -R 775 /var/www/html/
 wget -O /etc/nginx/snippets/proxy-control.conf https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/proxy-control.conf
 wget -O /etc/nginx/snippets/fastcgi-php.con https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/fastcgi-php.conf
 
-# Set user and group to nginx, and set permissions (change the permission to your needs)
-# chown -R nginx:nginx /etc/nginx/snippets/
-# chmod -R 660 /etc/nginx/snippets/
-
-# Set user nginx in nginx.conf
-# sed -i '1s/^/user nginx;\n/' /etc/nginx/nginx.conf
-
 # Backup nginx.conf created with make install to nginx.conf.backup, and create fresh nginx.conf
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.backup
 wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/drakehtpc/nginx_configurations/master/nginx.conf
 
-# Set user and group to nginx, and set permissions (change the permission to your needs)
+# Set permissions
 # chown -R www-data:www-data /etc/nginx/
 chmod -R 664 /etc/nginx/
 
-# Set /etc/nginx/ directory permission to 645, required for auth basic
+# Set /etc/nginx/ directory permission to 645, required for auth basic (don't change this, otherwise aut_basic won't work)
 chmod 645 /etc/nginx/
 
 # Remove /etc/nginx/html directory created by make install, as we use /var/www/html
@@ -183,4 +168,7 @@ systemctl enable nginx.service
 #Start nginx.service
 systemctl start nginx.service
 
-echo "All done.";
+# Display detailed nginx version with enabled modules
+nginx -V
+
+echo "All done. You can now proceed to configure nginx with Let's Encrypt certifiactes and hardened security. htpcguides.com";
