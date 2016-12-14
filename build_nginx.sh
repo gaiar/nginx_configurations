@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Source: http://www.htpcguides.com
+# Author: drake
 
 # Make script exit if a simple command fails and
 # Make script print commands being executed
@@ -171,4 +173,4 @@ systemctl start nginx.service
 # Display detailed nginx version with enabled modules
 nginx -V
 
-echo "All done. You can now proceed to configure nginx with Let's Encrypt certifiactes and hardened security. htpcguides.com";
+echo "All done. You can now proceed to configure nginx with Let's Encrypt certifiactes and hardened security. http://www.htpcguides.com";
