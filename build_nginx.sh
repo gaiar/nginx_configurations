@@ -9,13 +9,13 @@ set -e -x
 # names of latest versions of each package
 export VERSION_PCRE=pcre-8.39
 export VERSION_OPENSSL=openssl-1.1.0c
-export VERSION_ZLIB=zlib-1.2.10
+export VERSION_ZLIB=zlib
 export VERSION_NGINX=nginx-1.10.2
 
 # URLs to the source directories
 export SOURCE_OPENSSL=https://www.openssl.org/source/
 export SOURCE_PCRE=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
-export SOURCE_ZLIB=http://zlib.net/
+export SOURCE_ZLIB=http://zlib.net/current/
 export SOURCE_NGINX=http://nginx.org/download/
 
 # clean out any files from previous runs of this script
