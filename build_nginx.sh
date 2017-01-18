@@ -49,6 +49,8 @@ tar xzf $VERSION_NGINX.tar.gz
 tar xzf $VERSION_OPENSSL.tar.gz
 tar xzf $VERSION_PCRE.tar.gz
 tar xzf $VERSION_ZLIB.tar.gz
+# rename zlib folder to remove version numbering
+mv zlib-* zlib
 cd ../
 
 # set where nginx will be built
