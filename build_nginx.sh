@@ -8,9 +8,9 @@ set -e -x
 
 # names of latest versions of each package
 export VERSION_PCRE=pcre-8.40
-export VERSION_OPENSSL=openssl-1.1.0c
-export VERSION_ZLIB=zlib
-export VERSION_NGINX=nginx-1.10.2
+export VERSION_OPENSSL=openssl-1.1.1-pre6
+export VERSION_ZLIB=zlib-1.2.11
+export VERSION_NGINX=nginx-1.14.0
 
 # URLs to the source directories
 export SOURCE_OPENSSL=https://www.openssl.org/source/
@@ -50,7 +50,7 @@ tar xzf $VERSION_OPENSSL.tar.gz
 tar xzf $VERSION_PCRE.tar.gz
 tar xzf $VERSION_ZLIB.tar.gz
 # rename zlib folder to remove version numbering
-mv zlib-* zlib
+#mv zlib-* zlib
 cd ../
 
 # set where nginx will be built
@@ -61,12 +61,20 @@ cd $BPATH/$VERSION_NGINX
 wget -c https://github.com/arut/nginx-dav-ext-module/archive/master.zip -O nginx-dav-ext-module-master.zip
 unzip nginx-dav-ext-module-master.zip
 
+cd $BPATH/$VERSION_NGINX
+wget -c https://github.com/arut/nginx-rtmp-module/archive/v1.2.1.zip -O nginx-rtmp-module.zip
+unzip nginx-rtmp-module.zip
+
+
+export CFLAGS="-march=native -mtune=native"
+export CXXFLAGS="-march=native -mtune=native"
+
 # build nginx, with various modules included/excluded (http_v2, full WebDAV, GeoIP, etc), SSLv3 disabled, no weak SSL ciphers.
 cd $BPATH/$VERSION_NGINX
 ./configure \
 --prefix=/etc/nginx \
---with-cc-opt='-O3 -fPIE -fstack-protector-strong -Wformat -Werror=format-security' \
---with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro' \
+--with-cc-opt="-O3 -fPIE -fstack-protector-strong -Wformat -Werror=format-security $CXXFLAGS" \
+--with-ld-opt="-Wl,-Bsymbolic-functions -Wl,-z,relro" \
 --sbin-path=/usr/sbin/nginx \
 --conf-path=/etc/nginx/nginx.conf \
 --pid-path=/var/run/nginx.pid \
@@ -82,9 +90,12 @@ cd $BPATH/$VERSION_NGINX
 --sbin-path=/usr/sbin/nginx \
 --pid-path=/var/run/nginx.pid \
 --with-pcre=$BPATH/$VERSION_PCRE \
---with-openssl-opt="no-weak-ssl-ciphers no-ssl3 no-shared $ECFLAG -DOPENSSL_NO_HEARTBEATS -fstack-protector-strong" \
+--with-pcre-jit \
+--with-pcre-opt="$CXXFLAGS" \
+--with-openssl-opt="no-weak-ssl-ciphers no-ssl3 no-shared $ECFLAG -DOPENSSL_NO_HEARTBEATS -fstack-protector-strong $CXXFLAGS" \
 --with-openssl=$BPATH/$VERSION_OPENSSL \
 --with-zlib=$BPATH/$VERSION_ZLIB \
+--with-zlib-opt="$CXXFLAGS" \
 --with-http_auth_request_module \
 --with-http_gunzip_module \
 --with-http_gzip_static_module \
@@ -103,6 +114,7 @@ cd $BPATH/$VERSION_NGINX
 --without-mail_smtp_module \
 --without-mail_imap_module \
 --add-module=$BPATH/$VERSION_NGINX/nginx-dav-ext-module-master
+--add-module=$BPATH/$VERSION_NGINX/nginx-rtmp-module
 make -j $(nproc)
 make install
 
