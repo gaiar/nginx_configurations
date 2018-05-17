@@ -124,27 +124,32 @@ make install
    /etc/nginx/sites-enabled \
    /etc/nginx/snippets
 
+
+export CONF_URL=https://raw.githubusercontent.com/gaiar/nginx_configurations/master/
+
+
 # Copy nginx configuration files from Github repository
-wget -O /etc/nginx/sites-available/default https://raw.githubusercontent.com/HTPCGuides/nginx_configurations/master/default
+wget -O /etc/nginx/sites-available/default $CONF_URL/default
 
 # Symlink default config file to sites-enabled
 ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Create default root folder and get default index.html file
 mkdir -p /var/www/html/
-wget -O /var/www/html/index.html https://raw.githubusercontent.com/HTPCGuides/nginx_configurations/master/index.html
+wget -O /var/www/html/index.html $CONF_URL/index.html
 
 # Set user and group to nginx, and set permissions
 chown -R www-data:www-data /var/www/html/
 chmod -R 775 /var/www/html/
 
 # Add proxy-control.conf and fastcgi-php.conf to snippets
-wget -O /etc/nginx/snippets/proxy-control.conf https://raw.githubusercontent.com/HTPCGuides/nginx_configurations/master/proxy-control.conf
-wget -O /etc/nginx/snippets/fastcgi-php.con https://raw.githubusercontent.com/HTPCGuides/nginx_configurations/master/fastcgi-php.conf
+wget -O /etc/nginx/snippets/proxy-control.conf $CONF_URL/proxy-control.conf
+wget -O /etc/nginx/snippets/fastcgi-php.conf $CONF_URL/fastcgi-php.conf
+wget -O /etc/nginx/snippets/rtmp.conf $CONF_URL/rtmp.conf
 
 # Backup nginx.conf created with make install to nginx.conf.backup, and create fresh nginx.conf
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.backup
-wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/HTPCGuides/nginx_configurations/master/nginx.conf
+wget -O /etc/nginx/nginx.conf $CONF_URL/nginx.conf
 
 # Set permissions
 # chown -R www-data:www-data /etc/nginx/
