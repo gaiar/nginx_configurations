@@ -7,7 +7,7 @@
 set -e -x
 
 # names of latest versions of each package
-export VERSION_PCRE=pcre-8.40
+export VERSION_PCRE=pcre-8.42
 export VERSION_OPENSSL=openssl-1.1.1-pre8
 export VERSION_ZLIB=zlib-1.2.11
 export VERSION_NGINX=nginx-1.15.0
