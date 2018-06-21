@@ -35,12 +35,12 @@ wget -P ./build $SOURCE_NGINX$VERSION_NGINX.tar.gz
 
 # Create NGINX cache directories if they do not already exist
 if [ ! -d "/var/cache/nginx/" ]; then
-    mkdir -p \
-    /var/cache/nginx/client_temp \
-    /var/cache/nginx/proxy_temp \
-    /var/cache/nginx/fastcgi_temp \
-    /var/cache/nginx/uwsgi_temp \
-    /var/cache/nginx/scgi_temp
+	mkdir -p \
+		/var/cache/nginx/client_temp \
+		/var/cache/nginx/proxy_temp \
+		/var/cache/nginx/fastcgi_temp \
+		/var/cache/nginx/uwsgi_temp \
+		/var/cache/nginx/scgi_temp
 fi
 
 # expand the source files
@@ -62,9 +62,8 @@ wget -c https://github.com/arut/nginx-dav-ext-module/archive/master.zip -O nginx
 unzip nginx-dav-ext-module-master.zip
 
 cd $BPATH/$VERSION_NGINX
-wget -c https://github.com/arut/nginx-rtmp-module/archive/v1.2.1.zip -O nginx-rtmp-module.zip
-unzip nginx-rtmp-module.zip
-
+wget -c https://github.com/arut/nginx-rtmp-module/archive/master.zip -O nginx-rtmp-module-master.zip
+unzip nginx-rtmp-module-master.zip
 
 export CFLAGS="-march=native -mtune=native"
 export CXXFLAGS="-march=native -mtune=native"
@@ -72,61 +71,59 @@ export CXXFLAGS="-march=native -mtune=native"
 # build nginx, with various modules included/excluded (http_v2, full WebDAV, GeoIP, etc), SSLv3 disabled, no weak SSL ciphers.
 cd $BPATH/$VERSION_NGINX
 ./configure \
---prefix=/etc/nginx \
---with-cc-opt="-O3 -fPIE -fstack-protector-strong -Wformat -Werror=format-security $CXXFLAGS" \
---with-ld-opt="-Wl,-Bsymbolic-functions -Wl,-z,relro" \
---sbin-path=/usr/sbin/nginx \
---conf-path=/etc/nginx/nginx.conf \
---pid-path=/var/run/nginx.pid \
---error-log-path=/var/log/nginx/error.log \
---http-log-path=/var/log/nginx/access.log \
---http-client-body-temp-path=/var/cache/nginx/client_temp \
---http-proxy-temp-path=/var/cache/nginx/proxy_temp \
---http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
---http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
---http-scgi-temp-path=/var/cache/nginx/scgi_temp \
---user=www-data \
---group=www-data \
---sbin-path=/usr/sbin/nginx \
---pid-path=/var/run/nginx.pid \
---with-pcre=$BPATH/$VERSION_PCRE \
---with-pcre-jit \
---with-pcre-opt="$CXXFLAGS" \
---with-openssl-opt="no-weak-ssl-ciphers no-ssl3 no-shared $ECFLAG -DOPENSSL_NO_HEARTBEATS -fstack-protector-strong $CXXFLAGS" \
---with-openssl=$BPATH/$VERSION_OPENSSL \
---with-zlib=$BPATH/$VERSION_ZLIB \
---with-zlib-opt="$CXXFLAGS" \
---with-http_auth_request_module \
---with-http_gunzip_module \
---with-http_gzip_static_module \
---with-http_mp4_module \
---with-http_realip_module \
---with-http_ssl_module \
---with-http_v2_module \
---with-file-aio \
---with-ipv6 \
---with-http_gzip_static_module \
---with-http_stub_status_module \
---with-http_geoip_module \
---with-http_dav_module \
---with-threads \
---without-mail_pop3_module \
---without-mail_smtp_module \
---without-mail_imap_module \
---add-module=$BPATH/$VERSION_NGINX/nginx-dav-ext-module-master \
---add-module=$BPATH/$VERSION_NGINX/nginx-rtmp-module \
-make -j $(nproc) \
-make install
+	--prefix=/etc/nginx \
+	--with-cc-opt="-O3 -fPIE -fstack-protector-strong -Wformat -Werror=format-security $CXXFLAGS" \
+	--with-ld-opt="-Wl,-Bsymbolic-functions -Wl,-z,relro" \
+	--sbin-path=/usr/sbin/nginx \
+	--conf-path=/etc/nginx/nginx.conf \
+	--pid-path=/var/run/nginx.pid \
+	--error-log-path=/var/log/nginx/error.log \
+	--http-log-path=/var/log/nginx/access.log \
+	--http-client-body-temp-path=/var/cache/nginx/client_temp \
+	--http-proxy-temp-path=/var/cache/nginx/proxy_temp \
+	--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
+	--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
+	--http-scgi-temp-path=/var/cache/nginx/scgi_temp \
+	--user=www-data \
+	--group=www-data \
+	--sbin-path=/usr/sbin/nginx \
+	--pid-path=/var/run/nginx.pid \
+	--with-pcre=$BPATH/$VERSION_PCRE \
+	--with-pcre-jit \
+	--with-pcre-opt="$CXXFLAGS" \
+	--with-openssl-opt="no-weak-ssl-ciphers no-ssl3 no-shared $ECFLAG -DOPENSSL_NO_HEARTBEATS -fstack-protector-strong $CXXFLAGS" \
+	--with-openssl=$BPATH/$VERSION_OPENSSL \
+	--with-zlib=$BPATH/$VERSION_ZLIB \
+	--with-zlib-opt="$CXXFLAGS" \
+	--with-http_auth_request_module \
+	--with-http_gunzip_module \
+	--with-http_gzip_static_module \
+	--with-http_mp4_module \
+	--with-http_realip_module \
+	--with-http_ssl_module \
+	--with-http_v2_module \
+	--with-file-aio \
+	--with-ipv6 \
+	--with-http_gzip_static_module \
+	--with-http_stub_status_module \
+	--with-http_geoip_module \
+	--with-http_dav_module \
+	--with-threads \
+	--without-mail_pop3_module \
+	--without-mail_smtp_module \
+	--without-mail_imap_module \
+	--add-module=$BPATH/$VERSION_NGINX/nginx-dav-ext-module-master \
+	--add-module=$BPATH/$VERSION_NGINX/nginx-rtmp-module-master \
+	make -j $(nproc) \
+	make install
 
 # Create config files for nginx
- mkdir -p \
-   /etc/nginx/sites-available \
-   /etc/nginx/sites-enabled \
-   /etc/nginx/snippets
-
+mkdir -p \
+	/etc/nginx/sites-available \
+	/etc/nginx/sites-enabled \
+	/etc/nginx/snippets
 
 export CONF_URL=https://raw.githubusercontent.com/gaiar/nginx_configurations/master/
-
 
 # Copy nginx configuration files from Github repository
 wget -O /etc/nginx/sites-available/default $CONF_URL/default
@@ -163,10 +160,10 @@ rm -r /etc/nginx/html/
 
 # Create NGINX systemd service file if it does not already exist
 if [ ! -e "/lib/systemd/system/nginx.service" ]; then
-  # Control will enter here if $DIRECTORY doesn't exist.
-  FILE="/lib/systemd/system/nginx.service"
+	# Control will enter here if $DIRECTORY doesn't exist.
+	FILE="/lib/systemd/system/nginx.service"
 
-  /bin/cat >$FILE <<'EOF'
+	/bin/cat >$FILE <<'EOF'
 [Unit]
 Description=The NGINX HTTP and reverse proxy server
 After=syslog.target network.target remote-fs.target nss-lookup.target
@@ -191,4 +188,4 @@ systemctl start nginx.service
 
 # Display detailed nginx version with enabled modules
 nginx -V
-echo "Congratulations, nginx built successfully. You can now proceed to configure nginx with Let's Encrypt certifiactes and hardened security. http://www.htpcguides.com";
+echo "Congratulations, nginx built successfully. You can now proceed to configure nginx with Let's Encrypt certifiactes and hardened security. http://www.htpcguides.com"
