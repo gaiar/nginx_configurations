@@ -113,8 +113,8 @@ cd $BPATH/$VERSION_NGINX
 	--without-mail_smtp_module \
 	--without-mail_imap_module \
 	--add-module=$BPATH/$VERSION_NGINX/nginx-dav-ext-module-master \
-	--add-module=$BPATH/$VERSION_NGINX/nginx-rtmp-module-master \
-	make -j $(nproc) \
+	--add-module=$BPATH/$VERSION_NGINX/nginx-rtmp-module-master
+	make -j $(nproc)
 	make install
 
 # Create config files for nginx
