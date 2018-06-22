@@ -24,15 +24,28 @@ ffmpeg -i /dev/video0 \
 	-f flv rtmp://example.com:8081/hls/live
 
 ffmpeg \
+	-stream_loop -1 \
 	-c:v h264_mmal \
 	-i flower.mp4 \
 	-c:v h264_omx \
-    -s 852x480 \
+	-preset:v ultrafast \
+	-s 720x404 \
 	-b:v 128K \
-	-c:a copy \
-    -tune zerolatency \
-    -f flv rtmp://localhost/hls/
+	-c:a aac \
+	-f flv rtmp://localhost/show/hls
 
+ffmpeg \
+	-re \
+	-stream_loop -1 \
+	-c:v h264_mmal \
+	-i flower.mp4 \
+	-c:v h264_omx \
+    -vprofile baseline \
+    -video_size 720x404 \
+    -maxrate 768k \
+	-bufsize 8080k \
+	-c:a copy \
+	-f flv rtmp://localhost/show/hls
 
 ffmpeg -i file.mp4 \
 	-c:v copy \

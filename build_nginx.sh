@@ -65,6 +65,10 @@ cd $BPATH/$VERSION_NGINX
 wget -c https://github.com/arut/nginx-rtmp-module/archive/master.zip -O nginx-rtmp-module-master.zip
 unzip nginx-rtmp-module-master.zip
 
+cd $BPATH/$VERSION_NGINX
+git clone https://github.com/kaltura/nginx-vod-module.git
+
+
 export CFLAGS="-march=native -mtune=native"
 export CXXFLAGS="-march=native -mtune=native"
 
@@ -113,7 +117,8 @@ cd $BPATH/$VERSION_NGINX
 	--without-mail_smtp_module \
 	--without-mail_imap_module \
 	--add-module=$BPATH/$VERSION_NGINX/nginx-dav-ext-module-master \
-	--add-module=$BPATH/$VERSION_NGINX/nginx-rtmp-module-master
+	--add-module=$BPATH/$VERSION_NGINX/nginx-rtmp-module-master \
+  --add-module=$BPATH/$VERSION_NGINX/nginx-vod-module \
 	make -j $(nproc)
 	make install
 
