@@ -25,13 +25,13 @@ ffmpeg -i /dev/video0 \
 
 ffmpeg \
 	-c:v h264_mmal \
-	-i inputfile.mp4 \
+	-i flower.mp4 \
 	-c:v h264_omx \
     -s 852x480 \
 	-b:v 128K \
 	-c:a copy \
     -tune zerolatency \
-    -f flv rtmp://localhost/hls/$name_hi
+    -f flv rtmp://localhost/hls/
 
 
 ffmpeg -i file.mp4 \
