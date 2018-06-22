@@ -42,7 +42,7 @@ ffmpeg \
 	-c:v h264_omx \
     -vprofile baseline \
     -video_size 720x404 \
-    -maxrate 768k \
+    -maxrate 1000K \
 	-bufsize 8080k \
 	-c:a copy \
 	-f flv rtmp://localhost/show/hls
