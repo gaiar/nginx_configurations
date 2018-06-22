@@ -118,7 +118,7 @@ cd $BPATH/$VERSION_NGINX
 	--without-mail_imap_module \
 	--add-module=$BPATH/$VERSION_NGINX/nginx-dav-ext-module-master \
 	--add-module=$BPATH/$VERSION_NGINX/nginx-rtmp-module-master \
-  --add-module=$BPATH/$VERSION_NGINX/nginx-vod-module \
+  --add-module=$BPATH/$VERSION_NGINX/nginx-vod-module
 	make -j $(nproc)
 	make install
 
