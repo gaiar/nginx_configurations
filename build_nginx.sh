@@ -25,7 +25,7 @@ mkdir build
 # ensure that we have the dependencies to compile nginx & modules
 # make sure you have contrib non-free repository added to your sources!
 apt-get update
-apt-get install curl wget build-essential libexpat-dev unzip apt-utils libgeoip-dev -y
+apt-get install curl wget build-essential libexpat-dev unzip apt-utils libgeoip-dev libxml2-dev -y
 
 # grab the source files
 wget -P ./build $SOURCE_PCRE$VERSION_PCRE.tar.gz
