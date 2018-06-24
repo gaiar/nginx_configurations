@@ -1,10 +1,8 @@
 cd ~/ffmpeg_sources &&
-	wget https://www.nasm.us/pub/nasm/releasebuilds/2.13.03/nasm-2.13.03.tar.bz2 &&
-	tar xjvf nasm-2.13.03.tar.bz2 &&
-	cd nasm-2.13.03 &&
+	wget https://www.nasm.us/pub/nasm/releasebuilds/2.14rc7/nasm-2.14rc7.tar.bz2 &&
+	tar xjvf nasm-2.14rc7.tar.bz2 &&
+	cd nasm-2.14rc7 &&
 	./autogen.sh &&
-	PATH="$HOME/bin:$PATH" CFLAGS="-Wno-error" ./configure \
-		--prefix="$HOME/ffmpeg_build" \
-		--bindir="$HOME/bin" &&
+	auto-apt run ./configure &&
 	make -j $(nproc) &&
-	make install
+	sudo checkinstall --default

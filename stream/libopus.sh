@@ -1,9 +1,10 @@
 cd ~/ffmpeg_sources &&
-	git -C opus pull 2>/dev/null || git clone --depth 1 https://github.com/xiph/opus.git &&
-	cd opus &&
+	wget -O opus-1.2.1.tar.gz https://github.com/xiph/opus/archive/v1.2.1.tar.gz &&
+	mkdir -p opus &&
+	tar xvfz opus-1.2.1.tar.gz -C opus &&
+	cd opus/opus* &&
 	./autogen.sh &&
-	./configure \
-		--prefix="$HOME/ffmpeg_build" \
+	auto-apt run ./configure \
 		--enable-shared &&
 	make -j $(nproc) &&
-	make install
+	sudo checkinstall --default

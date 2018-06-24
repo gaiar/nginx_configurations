@@ -3,13 +3,9 @@ sudo apt-get install libomxil-bellagio-dev &&
 	wget -O ffmpeg-snapshot.tar.bz2 https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 &&
 	tar xjvf ffmpeg-snapshot.tar.bz2 &&
 	cd ffmpeg &&
-	PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
-		--prefix="$HOME/ffmpeg_build" \
-		--pkg-config-flags="--static" \
-		--extra-cflags="-I$HOME/ffmpeg_build/include -march=native -mtune=native" \
-		--extra-ldflags="-L$HOME/ffmpeg_build/lib" \
+	auto-apt run ./configure \
+		--extra-cflags="-march=native -mtune=native" \
 		--extra-libs="-lpthread -lm" \
-		--bindir="$HOME/bin" \
         --enable-shared \
         --enable-pic \
 		--enable-gpl \
@@ -26,6 +22,7 @@ sudo apt-get install libomxil-bellagio-dev &&
 		--enable-omx \
 		--enable-omx-rpi \
 		--enable-nonfree &&
-	PATH="$HOME/bin:$PATH" make -j $(nproc) &&
-	make install &&
+	make -j $(nproc) &&
+	sudo checkinstall --default &&
 	hash -r
+    sudo ldconfig

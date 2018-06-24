@@ -1,12 +1,13 @@
 cd ~/ffmpeg_sources &&
-	git -C libvpx pull 2>/dev/null || git clone --depth 1 https://chromium.googlesource.com/webm/libvpx.git &&
+	wget -O libvpx-1.7.0.tar.gz https://chromium.googlesource.com/webm/libvpx/+archive/f80be22a1099b2a431c2796f529bb261064ec6b4.tar.gz &&
+	mkdir -p libvpx &&
+	tar xvfz libvpx-1.7.0.tar.gz -C libvpx &&
 	cd libvpx &&
-	PATH="$HOME/bin:$PATH" ./configure \
-		--prefix="$HOME/ffmpeg_build" \
+	auto-apt run ./configure \
 		--enable-shared \
 		--disable-examples \
 		--disable-unit-tests \
 		--enable-vp9-highbitdepth \
 		--as=yasm &&
-	PATH="$HOME/bin:$PATH" make -j $(nproc) &&
-	make install
+	make -j $(nproc) &&
+	sudo checkinstall --default --pkgversion="1.7.0" -y

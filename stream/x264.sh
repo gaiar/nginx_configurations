@@ -1,10 +1,10 @@
 cd ~/ffmpeg_sources &&
-	git -C x264 pull 2>/dev/null || git clone --depth 1 https://git.videolan.org/git/x264 &&
-	cd x264 &&
-	PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
-		--prefix="$HOME/ffmpeg_build" \
-		--bindir="$HOME/bin" \
+	wget -O last_x264.tar.bz2 ftp://ftp.videolan.org/pub/x264/snapshots/last_x264.tar.bz2 &&
+	mkdir -p x264 &&
+	tar xjvf last_x264.tar.bz2 -C x264 &&
+	cd x264/x264* &&
+	auto-apt run ./configure \
 		--enable-shared \
 		--enable-pic &&
-	PATH="$HOME/bin:$PATH" make -j $(nproc) &&
-	make install
+	make -j $(nproc) &&
+	sudo checkinstall --default

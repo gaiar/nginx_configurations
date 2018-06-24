@@ -1,9 +1,10 @@
 cd ~/ffmpeg_sources &&
-	git -C fdk-aac pull 2>/dev/null || git clone --depth 1 https://github.com/mstorsjo/fdk-aac &&
-	cd fdk-aac &&
+	wget -O fdk-aac-0.1.6.tar.gz https://github.com/mstorsjo/fdk-aac/archive/v0.1.6.tar.gz &&
+	mkdir -p fdk-aac &&
+	tar xvfz fdk-aac-0.1.6.tar.gz -C fdk-aac &&
+	cd fdk-aac/fdk-aac* &&
 	autoreconf -fiv &&
-	./configure \
-		--prefix="$HOME/ffmpeg_build" \
+	auto-apt run ./configure \
 		--enable-shared &&
 	make -j $(nproc) &&
-	make install
+	sudo checkinstall --default
