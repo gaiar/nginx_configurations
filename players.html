@@ -8,6 +8,21 @@
     <script src="https://vjs.zencdn.net/7.0.3/video.min.js"></script>
     <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
     <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
+
+
+    <style>
+        section {
+            margin: 0 auto;
+            display: flex;
+        }
+
+        .column {
+            margin: 2px;
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -24,8 +39,8 @@
         var players = [];
 
         var player_opts = {
-            height: 360,
-            width: 640,
+            height: 180,
+            width: 320,
             controls: true,
             preload: 'auto',
             autoplay: false,
@@ -34,7 +49,7 @@
         };
 
 
-        players.push(videojs('#player', player_opts));
+        //players.push(videojs('#player', player_opts));
 
 
         function getSource() {
@@ -47,16 +62,23 @@
         function createPlayer() {
 
             var n = 3;
+            var section = document.createElement('section');
+            document.body.appendChild(section);
 
             for (var i = 0; i <= n; i++) {
-
+                var column = document.createElement('div');
+                column.className = 'column';
                 var video = document.createElement('video');
                 video.id = 'player' + (players.length + 1).toString();
                 video.className = "video-js vjs-default-skin vjs-big-play-centered";
-                document.body.appendChild(video);
-                player_opts.sources = [getSource()];
-                players.push(videojs(video.id, player_opts))
+                column.appendChild(video);
+                section.appendChild(column);
+                var new_source = player_opts
+                console.log(new_source);
+                new_source.sources = [getSource()];
+                players.push(videojs(video.id, new_source))
             }
+
         }
 
         function startPlaying() {
