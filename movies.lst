@@ -1,0 +1,10 @@
+movies:
+
+* http://www.valkaama.com/download.php?target=media/movie/Valkaama_1080_p.mkv
+* https://archive.org/download/Sita_Sings_the_Blues_Files/ReenaStartsFiresForward2.mov
+* https://archive.org/download/ElephantsDream/ed_1024.mp4
+
+
+http://localhost:3030/hls/devito,360p.mp4,480p.mp4,720p.mp4,.en_US.vtt,.urlset/master.m3u8
+
+http://51.15.218.143:8888/tos,.720p.mov,.1080p.mov,.urlset/master.m3u8
