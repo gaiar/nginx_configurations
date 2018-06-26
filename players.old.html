@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cheap ARM server Live Streaming</title>
+    <link href="https://vjs.zencdn.net/7.0.3/video-js.min.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/7.0.3/video.min.js"></script>
+    <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
+    <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
+
+
+    <style>
+
+        section {
+            margin: 0 auto;
+            display: flex;
+            flex-flow: row wrap;
+            flex-direction: row;
+            align-content: center;
+        }
+
+        .column {
+            margin: 2px;
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: auto;          
+        }
+
+        #player_number {
+            font-size: 12px;
+            text-align: left;
+            text-decoration: none;
+            display: inline-block;
+            font-family: Lucida Console, Courier, monospace;
+        }
+
+        .button {
+            font-size: 12px;
+            border-radius: 4px;
+            padding: 10px 24px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            cursor: pointer;
+            font-family: Lucida Console, Courier, monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <p id="player_number" class="column">Number of players: 0</p>
+        <input type="button" id="more_players" class="button" value="Add players" onclick="createPlayer()">
+        <input type="button" id="toggle_players" class="button" value="Toggle players" onclick="startPlaying()">
+        <input type="button" id="pause_players" class="button" value="Pause players" onclick="pauseAll()">
+        <input type="button" id="play_players" class="button" value="Start players" onclick="playAll()">
+        <input type="button" id="play_players" class="button" value="Random seek" onclick="randomSeek()">
+    </section>
+
+    <script>
+        videojs.log.level("info");
+        var players = [];
+
+        var player_opts = {
+            height: 180,
+            width: 320,
+            controls: true,
+            preload: 'auto',
+            autoplay: false,
+            loop: true,
+            sources: [getSource()]
+        };
+
+
+        //players.push(videojs('#player', player_opts));
+
+
+        function getSource() {
+            var sources = [];
+            sources.push('http://51.15.218.143:8888/tos,.720p.mov,.1080p.mov,.urlset/master.m3u8');
+            sources.push('http://51.15.218.143:8888/sintel,.400p.mp4,.500p.mp4,.800p.mp4,.urlset/master.m3u8');
+            sources.push('http://51.15.218.143:8888/ed,.400p.mp4,.500p.mp4,.urlset/master.m3u8');
+            return { src: sources[Math.floor(Math.random() * sources.length)], type: 'application/x-mpegURL' };
+        }
+
+        function createPlayer() {
+
+            var n = 3;
+            var section = document.createElement('section');
+            document.body.appendChild(section);
+
+            for (var i = 0; i < n; i++) {
+                var column = document.createElement('div');
+                column.className = 'column';
+                var video = document.createElement('video');
+                video.id = 'player' + (players.length + 1).toString();
+                video.className = "video-js vjs-default-skin vjs-big-play-centered";
+                column.appendChild(video);
+                section.appendChild(column);
+                var new_source = player_opts
+                console.log(new_source);
+                new_source.sources = [getSource()];
+                players.push(videojs(video.id, new_source))
+            }
+            document.getElementById('player_number').innerHTML = "Number of players: " + players.length.toString();
+        }
+
+        function startPlaying() {
+            for (player of players) {
+                if (player.paused()) {
+                    player.play();
+                } else {
+                    player.pause();
+                }
+            }
+        }
+
+
+        function playAll() {
+            for (player of players) {
+                player.play();
+            }
+        }
+
+        function pauseAll() {
+            for (player of players) {
+                player.pause();
+            }
+        }
+
+        function randomSeek() {
+            for (player of players) {
+                //Math.floor(Math.random() * (max - min + 1)) + min;       
+                console.log("Timeout before next seek");
+                var time_to_seek = Math.floor(Math.random() * (Math.floor(player.duration() / 2) - 0 + 1)) + 0;
+                console.log("Seeking to: ", time_to_seek);
+                player.currentTime(time_to_seek);
+            }
+        }
+
+    </script>
+</body>
+
+</html>
