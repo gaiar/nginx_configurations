@@ -11,6 +11,7 @@
 
 
     <style>
+
         section {
             margin: 0 auto;
             display: flex;
@@ -22,15 +23,41 @@
             flex-shrink: 1;
             flex-basis: 0;
         }
+
+        #player_number {
+            font-size: 12px;
+            text-align: left;
+            text-decoration: none;
+            display: inline-block;
+            font-family: Lucida Console, Courier, monospace;
+        }
+
+        .button {
+            font-size: 12px;
+            border-radius: 4px;
+            padding: 10px 24px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            cursor: pointer;
+            font-family: Lucida Console, Courier, monospace;
+        }
     </style>
 </head>
 
 <body>
-    <input type="button" id="more_players" value="More players!" onclick="createPlayer()">
-    <input type="button" id="toggle_players" value="Toggle players!" onclick="startPlaying()">
-    <input type="button" id="pause_players" value="Pause players!" onclick="pauseAll()">
-    <input type="button" id="play_players" value="Play players!" onclick="playAll()">
-    <input type="button" id="play_players" value="Random seek players!" onclick="randomSeek()">
+    <section>
+        <p id="player_number" class="column">Number of players: 0</p>
+        <input type="button" id="more_players" class="button" value="Add players" onclick="createPlayer()">
+        <input type="button" id="toggle_players" class="button" value="Toggle players" onclick="startPlaying()">
+        <input type="button" id="pause_players" class="button" value="Pause players" onclick="pauseAll()">
+        <input type="button" id="play_players" class="button" value="Start players" onclick="playAll()">
+        <input type="button" id="play_players" class="button" value="Random seek" onclick="randomSeek()">
+    </section>
 
     <script>
         videojs.log.level("info");
@@ -77,7 +104,7 @@
                 new_source.sources = [getSource()];
                 players.push(videojs(video.id, new_source))
             }
-
+            document.getElementById('player_number').innerHTML = "Number of players: " + players.length.toString();
         }
 
         function startPlaying() {
