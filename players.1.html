@@ -12,13 +12,12 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
         crossorigin="anonymous">
+    <style>
+        body {
+            padding-top: 70px;
+        }
+    </style>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo "
-        crossorigin="anonymous "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js " integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49 "
-        crossorigin="anonymous "></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js " integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T "
-        crossorigin="anonymous "></script>
     <script>
         videojs.log.level("info");
         var players = [];
@@ -39,21 +38,26 @@
 
         function getSource() {
             var sources = [];
-            sources.push('http://stream.baimuratov.ru:8080/hls/tos,.720p.mov,.1080p.mov,.urlset/master.m3u8');
-            sources.push('http://stream.baimuratov.ru:8080/hls/sintel,.400p.mp4,.500p.mp4,.800p.mp4,.urlset/master.m3u8');
-            sources.push('http://stream.baimuratov.ru:8080/hls/ed,.400p.mp4,.500p.mp4,.urlset/master.m3u8');
-            return { src: sources[Math.floor(Math.random() * sources.length)], type: 'application/x-mpegURL' };
+            sources.push('http://stream.baimuratov.ru:8181/hls/tos,.720p.mov,.1080p.mov,.urlset/master.m3u8');
+            sources.push(
+                'http://stream.baimuratov.ru:8181/hls/sintel,.400p.mp4,.500p.mp4,.800p.mp4,.urlset/master.m3u8');
+            sources.push('http://stream.baimuratov.ru:8181/hls/ed,.400p.mp4,.500p.mp4,.urlset/master.m3u8');
+            return {
+                src: sources[Math.floor(Math.random() * sources.length)],
+                type: 'application/x-mpegURL'
+            };
         }
 
         function createPlayer() {
 
             var n = 3;
-            var section = document.createElement('section');
-            document.body.appendChild(section);
+            var section = document.createElement('div');
+            section.className = 'col d-flex flex-row justify-content-center'
+            document.getElementById('player_container').appendChild(section);
 
             for (var i = 0; i < n; i++) {
                 var column = document.createElement('div');
-                column.className = 'column';
+                column.className = 'm-1 p-0';
                 var video = document.createElement('video');
                 video.id = 'player' + (players.length + 1).toString();
                 video.className = "video-js vjs-default-skin vjs-big-play-centered";
@@ -64,6 +68,7 @@
                 new_source.sources = [getSource()];
                 players.push(videojs(video.id, new_source))
             }
+            document.getElementById('player_container')
             document.getElementById('player_number').innerHTML = "Number of players: " + players.length.toString();
         }
 
@@ -99,7 +104,6 @@
                 player.currentTime(time_to_seek);
             }
         }
-
     </script>
 </head>
 
@@ -130,18 +134,29 @@
         </div>
     </nav>
 
-
-    <div class="container ">
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary" onclick="createPlayer()">Add players</button>
-            <button type="button" class="btn btn-primary" onclick="startPlaying()">Toggle players</button>
-            <button type="button" class="btn btn-primary" onclick="pauseAll()">Pause players</button>
-            <button type="button" class="btn btn-primary" onclick="playAll()">Start players</button>
-            <button type="button" class="btn btn-primary" onclick="randomSeek()"> Random seek</button>
+    <main role="main" class="container">
+        <div class="row p-1 align-items-end">
+            <div class="col">
+                <span id="player_number">Number of players: 0</span>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-sm" onclick="createPlayer()">Add players</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="startPlaying()">Toggle players</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="pauseAll()">Pause players</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="playAll()">Start players</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="randomSeek()">Random seek</button>
+            </div>
         </div>
+        <div class="row" id="player_container"></div>
+    </main>
 
-    </div>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
