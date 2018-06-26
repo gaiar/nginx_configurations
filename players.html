@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Live Streaming</title>
+    <title>Cheap ARM server Live Streaming</title>
     <link href="https://vjs.zencdn.net/7.0.3/video-js.min.css" rel="stylesheet">
     <script src="https://vjs.zencdn.net/7.0.3/video.min.js"></script>
     <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
@@ -15,13 +15,16 @@
         section {
             margin: 0 auto;
             display: flex;
+            flex-flow: row wrap;
+            flex-direction: row;
+            align-content: center;
         }
 
         .column {
             margin: 2px;
             flex-grow: 1;
             flex-shrink: 1;
-            flex-basis: 0;
+            flex-basis: auto;          
         }
 
         #player_number {
