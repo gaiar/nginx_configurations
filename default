@@ -32,6 +32,11 @@ server {
         # Add index.php to the list if you are using PHP
         index index.html index.htm index.nginx-debian.html;
 
+        location ~ ^/(apple-touch-icon|browserconfig|favicon|mstile)(.*)\.(png|xml|ico)$ {
+                root /var/www/html/static;
+        }
+
+
         server_name _;
 
         location / {
