@@ -10,7 +10,7 @@ set -e -x
 export VERSION_PCRE=pcre-8.42
 export VERSION_OPENSSL=openssl-1.1.1-pre8
 export VERSION_ZLIB=zlib-1.2.11
-export VERSION_NGINX=nginx-1.15.0
+export VERSION_NGINX=nginx-1.15.2
 
 # URLs to the source directories
 export SOURCE_OPENSSL=https://www.openssl.org/source/
